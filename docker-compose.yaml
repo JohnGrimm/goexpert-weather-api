@@ -1,0 +1,19 @@
+services:
+  app:
+    container_name: app
+    hostname: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      tags:
+        - gcr.io/full-cycle-go-expert/goexpert-weather-api:v1
+    env_file:
+      - ./.env
+    ports:
+      - 8080:8080
+    healthcheck:
+      test: "wget -q --spider http://localhost:8080/status || exit 1"
+      start_period: 5s
+      timeout: 5s
+      interval: 10s
+      retries: 3
